@@ -1,0 +1,23 @@
+body {
+  text-align: center;
+}
+
+h1 {
+  margin: 30px auto;
+}
+
+.board {
+  margin-top: 40px;
+  width: 70vh;
+  height: 70vh;
+  border: 5px solid red;
+}
+
+.row {
+  height: calc(100% / 3);
+}
+
+.square {
+  grid-column: span 4;
+  border: 1px solid gray;
+}
