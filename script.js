@@ -1,11 +1,11 @@
 const displayController = (() => {
-  const squares = document.querySelectorAll('.square');
   const upNext = document.querySelector('.up-next');
   const gameOverMsg = document.querySelector('.game-over-msg');
   const newGameBtn = document.querySelector('.new-game-btn');
-  newGameBtn.addEventListener('click', () => {
-    gameController();
-  });
+  
+  function squares() {
+    return document.querySelectorAll('.square')
+  }
 
   function setUpNext(player) {
     const currentPlayer = document.querySelector('.current-player');
@@ -31,20 +31,21 @@ const displayController = (() => {
   }
 
   function deactivateSquares() {
-    // squares.forEach(square => {
-    //   let clone = square.cloneNode(true);
-    //   square.parentNode.replaceChild(clone, square);
-    // })
+    squares().forEach(square => {
+      let clone = square.cloneNode(true);
+      square.parentNode.replaceChild(clone, square);
+    })
   }
 
   function reset() {
-    squares.forEach(square => {
+    squares().forEach(square => {
       square.textContent = '';
     })
     gameOverMsg.style.display = 'none';
   }
 
   return { 
+    newGameBtn,
     squares, 
     setUpNext, 
     displayUpNext, 
@@ -60,7 +61,7 @@ const displayController = (() => {
 const board = (() => {   
   let boardArray = Array(9);
   function populateArray() {
-    displayController.squares.forEach(square => {
+    displayController.squares().forEach(square => {
       let index = square.classList[0];
       boardArray[index] = square.textContent;
     })
@@ -79,20 +80,19 @@ const board = (() => {
   }
 
   return { populateArray, possibleWins, full };
-});
+})();
 
 // Game control module
 const gameController = (() => {
   let currentPlayer;
-
-  (function newGame() {
+  displayController.newGameBtn.addEventListener('click', () => {
     displayController.reset();
     getNames();
     currentPlayer = player1;
     displayController.setUpNext(currentPlayer.name);
     displayController.displayUpNext();
     playTurn();
-  })();
+  });
 
   function getNames() {
     let name;
@@ -125,7 +125,7 @@ const gameController = (() => {
   }
 
   function playerMove() {
-    displayController.squares.forEach(square => {
+    displayController.squares().forEach(square => {
       square.addEventListener('click', () => {
         if (square.textContent === '') {
           displayController.addToken(square, currentPlayer.token);
@@ -156,7 +156,7 @@ const gameController = (() => {
   function switchPlayer() {
     currentPlayer = (currentPlayer === player1) ? player2 : player1;
   }
-});
+})();
 
 // Player factory
 const playerFactory = (name, token) => ({ name, token });
