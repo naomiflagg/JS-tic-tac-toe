@@ -6,7 +6,8 @@ h1 {
   margin: 30px auto;
 }
 
-.player-msg {
+.up-next,
+.game-over-msg {
   display: none;
 }
 
